@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Question from "./components/Question/Question";
 import Formulario from "./components/Formulario/Formulario";
 import Listado from "./components/Listado/Listado";
@@ -14,11 +14,28 @@ function App() {
   //Inicia como true porqure al abrir, queremos que se muestre
   const [showquestion, setShowQuestion] = useState(true);
   const [allexpenses, setAllExpenses] = useState([]);
+  const [expenses, setExpenses] = useState({});
+  const [createexpenses, setCreateExpenses] = useState(false);
+
+  //Use effect que actualiza el restante
+  useEffect(() => {
+    if (createexpenses) {
+      //Agrega el nuevo presupuesto
+      setAllExpenses([...allexpenses, expenses]);
+    }
+
+    //Resta del presupuesto actual
+    const bugdetRemaining = remaining - expenses.quantity;
+    setRemaining(bugdetRemaining);
+
+    //Resetear a false
+    setCreateExpenses(false);
+  }, [expenses]);
 
   //Función que se ejecuta cuando agregamos un gasto
-  const addNewExpenses = (expenses) => {
+  /*   const addNewExpenses = (expenses) => {
     setAllExpenses([...allexpenses, expenses]);
-  };
+  }; */
 
   return (
     <div className='container'>
@@ -34,7 +51,10 @@ function App() {
           ) : (
             <div className='row'>
               <div className='one-half column'>
-                <Formulario addNewExpenses={addNewExpenses} />
+                <Formulario
+                  setExpenses={setExpenses}
+                  setCreateExpenses={setCreateExpenses}
+                />
               </div>
               <div className='one-half column'>
                 <Listado allexpenses={allexpenses} />

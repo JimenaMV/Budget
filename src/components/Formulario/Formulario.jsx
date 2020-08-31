@@ -1,39 +1,40 @@
-import React, { useState } from "react"
-import Error from "../Error/Error"
-import shortid from "shortid"
+import React, { useState } from "react";
+import Error from "../Error/Error";
+import shortid from "shortid";
 
-const Formulario = ({ addNewExpenses }) => {
-  const [expensesname, setExpensessName] = useState("")
-  const [quantity, setQuantity] = useState(0)
-  const [error, setError] = useState(false)
+const Formulario = ({ setExpenses, setCreateExpenses }) => {
+  const [expensesname, setExpensessName] = useState("");
+  const [quantity, setQuantity] = useState(0);
+  const [error, setError] = useState(false);
 
   //Cuando el usuario agrega un gasto
   const addExpensess = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     //Validar: si la cantidad es menor a uno, si la cantidad está vacía o si el nombre está vacío, muestra error
     if (quantity < 1 || isNaN(quantity) || expensesname.trim() === "") {
-      setError(true)
-      return
+      setError(true);
+      return;
     }
-    setError(false)
+    setError(false);
 
     //Construir el gasto
     const expenses = {
       expensesname,
       quantity,
       id: shortid.generate(),
-    }
+    };
     /*  console.log(expenses) */
 
     //Pasar el gasto al componente principal
-    addNewExpenses(expenses)
+    setExpenses(expenses);
+    setCreateExpenses(true);
 
     //Resetear el form
 
-    setExpensessName("")
-    setQuantity(0)
-  }
+    setExpensessName("");
+    setQuantity(0);
+  };
 
   return (
     <form onSubmit={addExpensess}>
@@ -69,7 +70,7 @@ const Formulario = ({ addNewExpenses }) => {
         className='button-primary u-full-width'
       />
     </form>
-  )
-}
+  );
+};
 
-export default Formulario
+export default Formulario;
