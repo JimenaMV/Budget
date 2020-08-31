@@ -1,5 +1,6 @@
 import React from "react";
 import { revisarPresupuesto } from "../Helpers/Helpers";
+//
 
 const ControlPresupuesto = ({ budget, remaining }) => {
   return (
